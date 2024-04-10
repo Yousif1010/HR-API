@@ -1,7 +1,10 @@
 package gov.iti.jets.persistence.repositories;
 
+import gov.iti.jets.exceptions.ResourceException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
+import jakarta.ws.rs.core.Response;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -21,34 +24,49 @@ public abstract class CrudRepo<T,ID> {
             System.out.println(Optional.of(entity));
             return Optional.of(entity);
         } catch (Exception e) {
-            // Log the exception or handle it appropriately
-            System.out.println(e.getMessage());
+            throw new ResourceException("Error in inserting", Response.Status.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+    public Optional<List<T>> findAll(Class<T> objClass) {
+        try {
+            String jpql = "SELECT p FROM " + objClass.getSimpleName() + " p";
+            TypedQuery<T> findQuery = entityManager.createQuery(jpql, objClass);
+            return Optional.ofNullable(findQuery.getResultList());
+        } catch (Exception e) {
+            // Handle the exception appropriately
+            e.printStackTrace(); // Example: Print the stack trace
+            throw new ResourceException("Error in finding all", Response.Status.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public Optional<T> findById(Class<T> objClass, ID id){
+        T entity = entityManager.find(objClass, id);
+        if (entity == null) {
+            throw new ResourceException("Not Found " + id, Response.Status.NOT_FOUND);
+        }
+        return Optional.ofNullable(entity);
+    }
+
+    public Optional<T> update(T entity){
+        try {
+            System.out.println("updating..");
+            entityManager.getTransaction().begin();
+            T updatedEntity = entityManager.merge(entity); // from application to database
+            entityManager.getTransaction().commit();
+
+            // Ensure the updated entity is synchronized with the database
+            entityManager.refresh(updatedEntity);
+
+            return Optional.of(updatedEntity);
+        } catch (Exception e) {
             e.printStackTrace();
+            entityManager.getTransaction().rollback();
             return Optional.empty();
         }
     }
 
-    public Optional<List<T>> findAll(Class<T> objClass){
-        String jpql = "SELECT p FROM "+ objClass.getSimpleName()+ " p";
-        TypedQuery<T> findQuery = entityManager.createQuery(jpql, objClass);
-        return Optional.ofNullable(findQuery.getResultList());
-    }
-
-    public Optional<T> findById(Class<T> objClass, ID id){
-        return Optional.ofNullable(entityManager.find(objClass, id));
-    }
-
-    public Optional<T> update(T entity){
-        System.out.println("updating..");
-        entityManager.getTransaction().begin();
-        T updatedEntity = entityManager.merge(entity); // from application to database
-        entityManager.getTransaction().commit();
-
-        // Ensure the updated entity is synchronized with the database
-        entityManager.refresh(updatedEntity);
-
-        return Optional.of(updatedEntity);
-    }
 
     public void delete(T entity){
         entityManager.getTransaction().begin();
@@ -60,10 +78,9 @@ public abstract class CrudRepo<T,ID> {
         entityManager.getTransaction().commit();
     }
 
-    public T deleteById(Class<T> objClass, ID id) throws RuntimeException {
+    public T deleteById(Class<T> objClass, ID id) throws Exception {
         try {
             entityManager.getTransaction().begin();
-
             T entity = entityManager.find(objClass, id);
             if (entity != null) {
                 entityManager.remove(entity);
@@ -71,11 +88,13 @@ public abstract class CrudRepo<T,ID> {
                 return entity; // Return the deleted entity
             } else {
                 entityManager.getTransaction().rollback(); // Rollback transaction if entity not found
-                return null; // Entity not found, return null
+                throw new ResourceException("Not Found " , Response.Status.NOT_FOUND);
             }
         } catch (Exception e) {
             entityManager.getTransaction().rollback(); // Rollback transaction in case of exception
-            throw new RuntimeException("Failed to delete the item with ID: " + id, e); // Provide more informative error message
+//            throw new RuntimeException("Failed to delete the item with ID: " + id, e);
+//             throw new ResourceException("Failed to delete the item with ID: "+id , Response.Status.EXPECTATION_FAILED);
+            throw new ResourceException("no record with this id" , Response.Status.NOT_FOUND);
         }
     }
 

@@ -1,0 +1,20 @@
+<endpoints xmlns="http://java.sun.com/xml/ns/jax-ws/ri/runtime" version="2.0">
+
+    <endpoint
+            name="DepartmentManagement"
+            implementation="com.hrmanager.webservice.department.DepartmentManagement"
+            url-pattern="/ws/DepartmentService">
+    </endpoint>
+    <endpoint
+            name="EmployeeManagement"
+            implementation="com.hrmanager.webservice.employee.EmployeeManagement"
+            url-pattern="/ws/EmployeeService">
+    </endpoint>
+    <endpoint
+            name="LeaveRequestManagement"
+            implementation="com.hrmanager.webservice.leave.LeaveRequestManagement"
+            url-pattern="/ws/LeaveRequestService">
+
+    </endpoint>
+
+</endpoints>

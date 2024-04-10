@@ -1,5 +1,6 @@
 package gov.iti.jets.services;
 
+import gov.iti.jets.exceptions.ResourceException;
 import gov.iti.jets.persistence.connection.JPAManager;
 import gov.iti.jets.persistence.dtos.AttendanceDto;
 import gov.iti.jets.persistence.entities.Attendance;
@@ -9,6 +10,7 @@ import gov.iti.jets.persistence.mappers.AttendanceMapper;
 import gov.iti.jets.persistence.repositories.AttendanceRepo;
 import gov.iti.jets.persistence.repositories.EmployeeRepo;
 import jakarta.persistence.EntityManager;
+import jakarta.ws.rs.core.Response;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -34,7 +36,7 @@ public class AttendanceServices {
 
         if (!employee.isPresent()) {
             System.out.println("Employee not found in the database");
-            return false; // Employee not found in the database
+            throw new ResourceException("Employee not found in the database", Response.Status.NOT_FOUND);
         }
 
         AttendanceRepo attendanceRepo = new AttendanceRepo(em);
@@ -48,7 +50,7 @@ public class AttendanceServices {
 
         if (existingAttendance.isPresent()) {
             System.out.println("Attendance already recorded for the employee on the current date");
-            return false; // Attendance already recorded for the employee on the current date
+            throw new ResourceException("Attendance already recorded for the employee on the current date", Response.Status.CONFLICT);
 
         }
         Calendar calendar = Calendar.getInstance();
@@ -57,7 +59,7 @@ public class AttendanceServices {
         // Check if the current time is after 4:00 PM
         if (calendar.get(Calendar.HOUR_OF_DAY) >= 16) {
             System.out.println("Fingerprint entered after 4:00 PM");
-            return false;
+            throw new ResourceException("Fingerprint entered after 4:00 PM", Response.Status.CONFLICT);
         }
 
         Attendance attendance = new Attendance();
@@ -89,7 +91,7 @@ public class AttendanceServices {
 
         if (!employee.isPresent()) {
             System.out.println("Employee not found in the database");
-            return false; // Employee not found in the database
+            throw new ResourceException("Employee not found in the database", Response.Status.NOT_FOUND);
         }
 
         AttendanceRepo attendanceRepo = new AttendanceRepo(em);
@@ -100,7 +102,7 @@ public class AttendanceServices {
 
         if (!existingAttendance.isPresent()) {
             System.out.println("No attendance record found for the employee on the current date");
-            return false; // No attendance record found for the employee on the current date
+            throw new ResourceException("No attendance record found for the employee on the current date", Response.Status.NOT_FOUND);
         }
 
         Attendance attendance = existingAttendance.get();
@@ -247,6 +249,11 @@ public class AttendanceServices {
     }
     public boolean deleteRecordsInSpecificYearForSpecificEmployee(int employeeId, int year){
         attendanceRepo.deleteRecordsInSpecificYearForSpecificEmployee(employeeId, year);
+        return true;
+    }
+
+    public boolean deleteAttendanceRecord(int attendanceId) throws Exception {
+        attendanceRepo.deleteById(Attendance.class, attendanceId);
         return true;
     }
 

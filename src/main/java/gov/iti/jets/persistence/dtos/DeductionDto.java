@@ -12,4 +12,5 @@ public class DeductionDto implements Serializable {
     String reason;
     Date date;
     private String employeeName;
+    private Integer empId;
 }

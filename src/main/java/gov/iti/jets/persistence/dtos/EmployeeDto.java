@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Data
 public class EmployeeDto implements Serializable {
-    int empId;
+    Integer empId;
     String firstName;
     String lastName;
     Date dob;
@@ -23,4 +23,6 @@ public class EmployeeDto implements Serializable {
     String phone;
     private String managerName;
     private String departmentName;
+    private Integer managerId;
+    private Integer departmentId;
 }

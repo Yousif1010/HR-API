@@ -1,5 +1,6 @@
 package gov.iti.jets.persistence.repositories;
 
+import gov.iti.jets.exceptions.ResourceException;
 import gov.iti.jets.persistence.entities.Employee;
 import gov.iti.jets.persistence.entities.Vacations;
 import gov.iti.jets.persistence.enums.VacationsStatus;
@@ -8,6 +9,7 @@ import jakarta.persistence.EntityManager;
 
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.*;
+import jakarta.ws.rs.core.Response;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -23,10 +25,11 @@ public class VacationsRepo extends CrudRepo<Vacations,Integer>{
         return super.save(entity);
     }
     public Optional<Vacations> acceptVacation(int vacationId){
-        String jpql = "SELECT v FROM Vacations v WHERE v.vacationId = :vacationId";
-        TypedQuery<Vacations> query = entityManager.createQuery(jpql, Vacations.class);
-        query.setParameter("vacationId", vacationId);
-        Vacations result = query.getSingleResult();
+        Vacations result = findById(Vacations.class,vacationId)
+                .orElseThrow(() -> new ResourceException("vacation not found", Response.Status.NOT_FOUND));
+//        if(result==null){
+//            throw new ResourceException("vacation not found", Response.Status.NOT_FOUND);
+//        }
         result.setStatus(VacationsStatus.APPROVED);
         entityManager.getTransaction().begin();
         result = entityManager.merge(result); // from application to database
@@ -36,10 +39,11 @@ public class VacationsRepo extends CrudRepo<Vacations,Integer>{
         return Optional.ofNullable(result);
     }
     public Optional<Vacations> refuseVacation(int vacationId){
-        String jpql = "SELECT v FROM Vacations v WHERE v.vacationId = :vacationId";
-        TypedQuery<Vacations> query = entityManager.createQuery(jpql, Vacations.class);
-        query.setParameter("vacationId", vacationId);
-        Vacations result = query.getSingleResult();
+        Vacations result = findById(Vacations.class,vacationId)
+                .orElseThrow(() -> new ResourceException("vacation not found", Response.Status.NOT_FOUND));
+//        if(result==null){
+//            throw new ResourceException("vacation not found", Response.Status.NOT_FOUND);
+//        }
         result.setStatus(VacationsStatus.REFUSED);
         entityManager.getTransaction().begin();
         result = entityManager.merge(result); // from application to database

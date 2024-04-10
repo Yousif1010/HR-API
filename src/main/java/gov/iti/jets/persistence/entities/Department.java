@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Data
@@ -56,6 +57,26 @@ public class Department  implements java.io.Serializable {
         this.departmentName = departmentName;
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(departmentNo);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Department department = (Department) obj;
+        return Objects.equals(departmentNo, department.departmentNo);
+    }
+
+    @Override
+    public String toString() {
+        return "Department{" +
+                "departmentNo=" + departmentNo +
+                ", departmentName='" + departmentName + '\'' +
+                '}';
+    }
 }
 
 

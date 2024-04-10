@@ -12,6 +12,8 @@ public class DepartmentRepo extends CrudRepo<Department,Integer>{
         super(entityManager);
     }
 
-
+    public Optional<Employee> getManager(int departmentId){
+        return Optional.ofNullable(entityManager.find(Employee.class,departmentId));
+    }
 
 }

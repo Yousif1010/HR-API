@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Builder
@@ -44,7 +45,7 @@ public class Employee  implements java.io.Serializable {
      private Date dob;
 
     @Column(name="title_id", nullable=false)
-     private int titleId;
+     private Integer titleId;
 
     @Column(name="email", nullable=false, length=100)
      private String email;
@@ -99,7 +100,7 @@ public class Employee  implements java.io.Serializable {
         if(employee != null){
             managerName = employee.getFirstName() + " " + employee.getLastName();
         }
-        if(employee==null){
+        if(employee ==null){
             managerName="none";
         }
         if(department != null){
@@ -109,6 +110,14 @@ public class Employee  implements java.io.Serializable {
             departmentName="none";
         }
     }
+
+//    @PrePersist
+//    public  void prePersist(){
+//        if(hireDate==null){
+//            hireDate=new Date();
+//        }
+//
+//    }
 
     public Employee(String firstName, String lastName, Date dob, int titleId, String email, Date hireDate, String addressZone, String addressCity, String addressCountry, BigDecimal salary, String phone, boolean isDeleted) {
         this.firstName = firstName;
@@ -150,7 +159,69 @@ public class Employee  implements java.io.Serializable {
         this.isDeleted = true;
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(empId);
+    }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Employee employee = (Employee) obj;
+        return Objects.equals(empId, employee.empId);
+    }
+
+    public void updateEmployee(Employee employee) {
+        if (employee.getFirstName() != null) {
+            this.firstName = employee.getFirstName();
+        }
+        if (employee.getLastName() != null) {
+            this.lastName = employee.getLastName();
+        }
+        if (employee.getDob() != null) {
+            this.dob = employee.getDob();
+        }
+        if (employee.getTitleId() != null) {
+            this.titleId = employee.getTitleId();
+        }
+        if (employee.getEmail() != null) {
+            this.email = employee.getEmail();
+        }
+        if (employee.getAddressZone() != null) {
+            this.addressZone = employee.getAddressZone();
+        }
+        if (employee.getAddressCity() != null) {
+            this.addressCity = employee.getAddressCity();
+        }
+        if (employee.getAddressCountry() != null) {
+            this.addressCountry = employee.getAddressCountry();
+        }
+        if (employee.getSalary() != null) {
+            this.salary = employee.getSalary();
+        }
+        if (employee.getPhone() != null) {
+            this.phone = employee.getPhone();
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "empId=" + empId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", dob=" + dob +
+                ", titleId=" + titleId +
+                ", email='" + email + '\'' +
+                ", hireDate=" + hireDate +
+                ", addressZone='" + addressZone + '\'' +
+                ", addressCity='" + addressCity + '\'' +
+                ", addressCountry='" + addressCountry + '\'' +
+                ", salary=" + salary +
+                ", phone='" + phone + '\'' +
+                '}';
+    }
 }
 
 

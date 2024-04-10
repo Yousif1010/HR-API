@@ -1,9 +1,12 @@
 package gov.iti.jets.persistence.repositories;
 
+import gov.iti.jets.exceptions.ResourceException;
 import gov.iti.jets.persistence.entities.Bonus;
 import gov.iti.jets.persistence.entities.Employee;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
+import jakarta.ws.rs.core.Response;
+
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -15,7 +18,8 @@ public class BonusRepo extends CrudRepo<Bonus,Integer>{
     public void addBonusToEmployee(int employeeId, BigDecimal amount, String reason, Date date) {
         Employee employee = entityManager.find(Employee.class, employeeId);
         if (employee == null) {
-            throw new IllegalArgumentException("Employee not found with id: " + employeeId);
+//            throw new IllegalArgumentException("Employee not found with id: " + employeeId);
+            throw new ResourceException("Employee not found with id: " + employeeId, Response.Status.NOT_FOUND);
         }
 
         // Set default values if reason or date are not provided
