@@ -1,11 +1,10 @@
-package gov.iti.jets.persistence.dtos;
+package gov.iti.jets.persistence.soapDtos;
 
 import gov.iti.jets.persistence.enums.AttendanceStatus;
 import jakarta.ws.rs.core.Link;
-import jakarta.xml.bind.annotation.XmlRootElement;
-import jakarta.xml.bind.annotation.XmlTransient;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import lombok.Data;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,8 +20,8 @@ public class AttendanceDto implements Serializable {
     private AttendanceStatus status;
     private String employeeName;
 
-//    @XmlJavaTypeAdapter(Link.JaxbAdapter.class)
-//    private List<Link> link = new ArrayList<>();
+
+
     private  Integer empId;
 
 }

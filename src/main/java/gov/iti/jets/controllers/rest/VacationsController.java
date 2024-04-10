@@ -21,21 +21,21 @@ public class VacationsController {
     public List<VacationsDto> getAllVacations(){
         VacationsServices vacationsServices = new VacationsServices();
         List<VacationsDto> VacationsDtoList = vacationsServices.getAllVacations();
-        for (VacationsDto vacationsDto : VacationsDtoList) {
-            UriBuilder uriBuilder = UriBuilder.
-                    fromUri("http://localhost:9090/HR_API/webapi/vacations/{id}");
-            Link self = Link.fromUriBuilder(uriBuilder.
-                    resolveTemplate("id", vacationsDto.getVacationId())).rel("self").build();
-            vacationsDto.setListOfLinks(Collections.singletonList(self));
-        }
+//        for (VacationsDto vacationsDto : VacationsDtoList) {
+//            UriBuilder uriBuilder = UriBuilder.
+//                    fromUri("http://localhost:9090/HR_API/webapi/vacations/{id}");
+//            Link self = Link.fromUriBuilder(uriBuilder.
+//                    resolveTemplate("id", vacationsDto.getVacationId())).rel("self").build();
+//            vacationsDto.setListOfLinks(Collections.singletonList(self));
+//        }
         return VacationsDtoList;
     }
     @GET
     @Path("/{id}")
     public VacationsDto  getVacationById(@PathParam("id") Integer id,@Context UriInfo uriInfo){
         VacationsDto  vacationsDto = vacationsServices.getVacationById(id);
-        Link self = Link.fromUriBuilder(uriInfo.getAbsolutePathBuilder()).rel("self").build();
-        vacationsDto.setListOfLinks(Collections.singletonList(self));
+//        Link self = Link.fromUriBuilder(uriInfo.getAbsolutePathBuilder()).rel("self").build();
+//        vacationsDto.setListOfLinks(Collections.singletonList(self));
         return vacationsDto;
 
     }
@@ -100,13 +100,13 @@ public class VacationsController {
         List<VacationsDto> filteredVacations = vacationsServices.
                 findFilteredVacationsForEmployee(empId, startYear, startMonth, startDay,
                         endYear, endMonth, endDay, type, status);
-        for (VacationsDto vacationsDto : filteredVacations) {
-            UriBuilder uriBuilder = UriBuilder.
-                    fromUri("http://localhost:9090/HR_API/webapi/vacations/{id}");
-            Link self = Link.fromUriBuilder(uriBuilder.
-                    resolveTemplate("id", vacationsDto.getVacationId())).rel("self").build();
-            vacationsDto.setListOfLinks(Collections.singletonList(self));
-        }
+//        for (VacationsDto vacationsDto : filteredVacations) {
+//            UriBuilder uriBuilder = UriBuilder.
+//                    fromUri("http://localhost:9090/HR_API/webapi/vacations/{id}");
+//            Link self = Link.fromUriBuilder(uriBuilder.
+//                    resolveTemplate("id", vacationsDto.getVacationId())).rel("self").build();
+//            vacationsDto.setListOfLinks(Collections.singletonList(self));
+//        }
         return filteredVacations;
     }
     @POST
@@ -128,16 +128,15 @@ public class VacationsController {
         if (empId == null) {
             throw new ResourceException("you must enter empId", Response.Status.BAD_REQUEST);
         }
-
         VacationsServices vacationsServices = new VacationsServices();
         List<VacationsDto> filteredVacations = vacationsServices.findFilteredVacationsForEmployee(
                 empId, startYear, startMonth, startDay, endYear, endMonth, endDay, type, status);
 
-        for (VacationsDto vacationsDto : filteredVacations) {
-            UriBuilder uriBuilder = UriBuilder.fromUri("http://localhost:9090/HR_API/webapi/vacations/{id}");
-            Link self = Link.fromUriBuilder(uriBuilder.resolveTemplate("id", vacationsDto.getVacationId())).rel("self").build();
-            vacationsDto.setListOfLinks(Collections.singletonList(self));
-        }
+//        for (VacationsDto vacationsDto : filteredVacations) {
+//            UriBuilder uriBuilder = UriBuilder.fromUri("http://localhost:9090/HR_API/webapi/vacations/{id}");
+//            Link self = Link.fromUriBuilder(uriBuilder.resolveTemplate("id", vacationsDto.getVacationId())).rel("self").build();
+//            vacationsDto.setListOfLinks(Collections.singletonList(self));
+//        }
 
         return filteredVacations;
     }

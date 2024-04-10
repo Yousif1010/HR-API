@@ -2,19 +2,38 @@
 
     <endpoint
             name="DepartmentManagement"
-            implementation="com.hrmanager.webservice.department.DepartmentManagement"
-            url-pattern="/ws/DepartmentService">
+            implementation="gov.iti.jets.controllers.soap.services.DepartmentManagement"
+            url-pattern="/department">
     </endpoint>
     <endpoint
             name="EmployeeManagement"
-            implementation="com.hrmanager.webservice.employee.EmployeeManagement"
-            url-pattern="/ws/EmployeeService">
+            implementation="gov.iti.jets.controllers.soap.services.EmployeeManagement"
+            url-pattern="/employee">
     </endpoint>
     <endpoint
-            name="LeaveRequestManagement"
-            implementation="com.hrmanager.webservice.leave.LeaveRequestManagement"
-            url-pattern="/ws/LeaveRequestService">
-
+            name="VacationsManagement"
+            implementation="gov.iti.jets.controllers.soap.services.VacationsManagement"
+            url-pattern="/department">
+    </endpoint>
+    <endpoint
+            name="AttendanceManagement"
+            implementation="gov.iti.jets.controllers.soap.services.AttendanceManagement"
+            url-pattern="/attendance">
+    </endpoint>
+    <endpoint
+            name="BonusManagement"
+            implementation="gov.iti.jets.controllers.soap.services.BonusManagement"
+            url-pattern="/bonus">
+    </endpoint>
+    <endpoint
+            name="DeductionManagement"
+            implementation="gov.iti.jets.controllers.soap.services.DeductionManagement"
+            url-pattern="/deduction">
+    </endpoint>
+    <endpoint
+            name="TitlesManagement"
+            implementation="gov.iti.jets.controllers.soap.services.TitlesManagement"
+            url-pattern="/titles">
     </endpoint>
 
 </endpoints>

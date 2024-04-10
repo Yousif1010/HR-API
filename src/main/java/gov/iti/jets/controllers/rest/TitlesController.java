@@ -21,13 +21,13 @@ public class TitlesController {
     @GET
     public List<TitlesDto> getAllTitles(){
         List<TitlesDto> titlesDtoList = titlesServices.getAllTitles();
-        for (TitlesDto titlesDto : titlesDtoList) {
-            UriBuilder uriBuilder = UriBuilder.
-                    fromUri("http://localhost:9090/HR_API/webapi/titles/{id}");
-            Link self = Link.fromUriBuilder(uriBuilder.
-                    resolveTemplate("id", titlesDto.getTitleId())).rel("self").build();
-            titlesDto.setLink(Collections.singletonList(self));
-        }
+//        for (TitlesDto titlesDto : titlesDtoList) {
+//            UriBuilder uriBuilder = UriBuilder.
+//                    fromUri("http://localhost:9090/HR_API/webapi/titles/{id}");
+//            Link self = Link.fromUriBuilder(uriBuilder.
+//                    resolveTemplate("id", titlesDto.getTitleId())).rel("self").build();
+//            titlesDto.setLink(Collections.singletonList(self));
+//        }
         return titlesDtoList;
     }
 
@@ -36,9 +36,9 @@ public class TitlesController {
     @Path("/{id}")
     public TitlesDto getTitleById(@PathParam("id") int id) {
         TitlesDto titleDto = titlesServices.getTitleById(id);
-        UriBuilder uriBuilder = UriBuilder.fromPath("http://localhost:9090/HR_API/webapi/titles/{id}");
-        Link self = Link.fromUriBuilder(uriBuilder.resolveTemplate("id", id)).rel("self").build();
-        titleDto.setLink(Collections.singletonList(self));
+//        UriBuilder uriBuilder = UriBuilder.fromPath("http://localhost:9090/HR_API/webapi/titles/{id}");
+//        Link self = Link.fromUriBuilder(uriBuilder.resolveTemplate("id", id)).rel("self").build();
+//        titleDto.setLink(Collections.singletonList(self));
         return titleDto;
     }
 

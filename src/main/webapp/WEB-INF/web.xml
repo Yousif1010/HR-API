@@ -21,6 +21,98 @@
         <url-pattern>/webapi/*</url-pattern>
     </servlet-mapping>
 
+    <!--                        SOAP          -->
+
+    <listener>
+        <listener-class>
+            com.sun.xml.ws.transport.http.servlet.WSServletContextListener
+        </listener-class>
+    </listener>
+
+    <servlet>
+        <servlet-name>DepartmentManagement</servlet-name>
+        <servlet-class>
+            com.sun.xml.ws.transport.http.servlet.WSServlet
+        </servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DepartmentManagement</servlet-name>
+        <url-pattern>/department</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>EmployeeManagement</servlet-name>
+        <servlet-class>
+            com.sun.xml.ws.transport.http.servlet.WSServlet
+        </servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EmployeeManagement</servlet-name>
+        <url-pattern>/employee</url-pattern>
+    </servlet-mapping>
+    <servlet>
+
+        <servlet-name>VacationsManagement</servlet-name>
+        <servlet-class>
+            com.sun.xml.ws.transport.http.servlet.WSServlet
+        </servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>VacationsManagement</servlet-name>
+        <url-pattern>/vacations</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AttendanceManagement</servlet-name>
+        <servlet-class>
+            com.sun.xml.ws.transport.http.servlet.WSServlet
+        </servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AttendanceManagement</servlet-name>
+        <url-pattern>/attendance</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>BonusManagement</servlet-name>
+        <servlet-class>
+            com.sun.xml.ws.transport.http.servlet.WSServlet
+        </servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>BonusManagement</servlet-name>
+        <url-pattern>/bonus</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DeductionManagement</servlet-name>
+        <servlet-class>
+            com.sun.xml.ws.transport.http.servlet.WSServlet
+        </servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeductionManagement</servlet-name>
+        <url-pattern>/deduction</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>TitlesManagement</servlet-name>
+        <servlet-class>
+            com.sun.xml.ws.transport.http.servlet.WSServlet
+        </servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TitlesManagement</servlet-name>
+        <url-pattern>/titles</url-pattern>
+    </servlet-mapping>
+
 
 
 
