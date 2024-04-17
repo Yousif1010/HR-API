@@ -1,0 +1,85 @@
+create schema HR;
+use HR;
+
+-- Create the employee table
+CREATE TABLE employee (
+    emp_id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    dob DATE,
+    manager_id INT,
+    department_id INT,
+    title_id INT,
+    email VARCHAR(100),
+    username VARCHAR(100),
+    password VARCHAR(100),
+    hire_date DATE,
+    address_zone VARCHAR(100),
+    address_city VARCHAR(100),
+    address_country VARCHAR(100),
+    salary DECIMAL(10, 2),
+    phone VARCHAR(20),
+    FOREIGN KEY (department_id) REFERENCES department(department_no),
+    FOREIGN KEY (manager_id) REFERENCES employee(emp_id)
+);
+
+-- Create the department table
+CREATE TABLE department (
+    department_no INT AUTO_INCREMENT PRIMARY KEY,
+    department_name VARCHAR(100),
+    manager_id INT
+    -- FOREIGN KEY (manager_id) REFERENCES employee(emp_id)
+);
+
+-- Create the attendance table
+CREATE TABLE attendance (
+    attendance_id INT AUTO_INCREMENT PRIMARY KEY,
+    emp_id INT,
+    date DATE,
+    check_in_time TIME,
+    check_out_time TIME,
+    status ENUM('ABSENT', 'PRESENT', 'LATE'),
+    FOREIGN KEY (emp_id) REFERENCES employee(emp_id)
+);
+
+-- Create the vacations table
+CREATE TABLE vacations (
+    vacation_id INT AUTO_INCREMENT PRIMARY KEY,
+    emp_id INT,
+    type ENUM('ANNUAL', 'SICK', 'UNPAID'),
+    start_date DATE,
+    end_date DATE,
+    status ENUM('PENDING', 'APPROVED', 'REFUSED'),
+    reason VARCHAR(255),
+    FOREIGN KEY (emp_id) REFERENCES employee(emp_id)
+);
+
+-- Create the deduction table
+CREATE TABLE deduction (
+    deduction_id INT AUTO_INCREMENT PRIMARY KEY,
+    employee_id INT,
+    amount DECIMAL(10, 2),
+    reason VARCHAR(255),
+    date DATE,
+    FOREIGN KEY (employee_id) REFERENCES employee(emp_id)
+);
+
+-- Create the bonus table
+CREATE TABLE bonus(
+    bonus_id INT AUTO_INCREMENT PRIMARY KEY,
+    employee_id INT,
+    amount DECIMAL(10, 2),
+    reason VARCHAR(255),
+    date DATE,
+    FOREIGN KEY (employee_id) REFERENCES employee(emp_id)
+);
+
+-- Create the titles table
+CREATE TABLE titles (
+    title_id INT AUTO_INCREMENT PRIMARY KEY,
+    title_name VARCHAR(100)
+);
+
+ALTER TABLE Department
+ADD CONSTRAINT FK_Manager_Employee
+FOREIGN KEY (manager_id) REFERENCES Employee(emp_id);
